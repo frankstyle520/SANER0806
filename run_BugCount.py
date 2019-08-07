@@ -159,7 +159,7 @@ def reg_method(training_data_X, training_data_y, test_data_X,test_data_y, score_
 
     # Genetic Programming (需要网格搜素，已加)
     print("Genetic Programming....")
-    gpr = GPR(NP=200, F_CR=[(1.0, 0.1), (1.0, 0.9), (0.8, 0.2)], generation=100, len_x=20,
+    gpr = GPR(NP=100, F_CR=[(1.0, 0.1), (1.0, 0.9), (0.8, 0.2)], generation=100, len_x=20,
               value_up_range=20.0,
               value_down_range=-20.0, X=training_data_X, y=training_data_y)
     gpr_w = gpr.process()
@@ -302,7 +302,7 @@ def ClassificationMethod(X, Y, testX, testY, score_func, filename, i):
             (DTC_pred, 'CART'),
             (C45_pred, 'C4.5'),
             (LMT_pred, 'Logistic Model Tree'),
-            (RFC_pred, 'Logistic Model Tree'),
+            (RFC_pred, 'Random Forest'),
             (KNC_pred, 'K-Nearest Neighbors'),
             (Ripper_pred, 'Ripper'),
             (Ridor_pred, 'Ridor')
