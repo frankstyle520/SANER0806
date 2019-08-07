@@ -6,6 +6,7 @@ from openpyxl import Workbook
 import os
 import time
 from sklearn.linear_model import BayesianRidge
+from sklearn.linear_model import Ridge
 from sklearn.metrics import make_scorer
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.neural_network import MLPRegressor
@@ -81,7 +82,7 @@ KNC_tuned_parameters = [{'n_neighbors': [1, 5, 9, 13, 17]}]
 dtr_tuned_parameters = [{'min_samples_split': [2, 3, 4, 5, 6]}]
 RFR_tuned_parameters = [{'n_estimators': [10, 20, 30, 40, 50]}]
 lr_tuned_parameters = [{'normalize': [True, False]}]
-bayes_tuned_parameters = [{'tol': [0.1, 0.01, 0.001, 0.0001, 0.00001]}]
+ridge_tuned_parameters = [{'tol': [0.1, 0.01, 0.001, 0.0001, 0.00001]}]
 
 lasso_tuned_parameters = [{'normalize': [True, False]}]
 lar_tuned_parameters = [{'normalize': [True, False]}]
@@ -133,12 +134,12 @@ def reg_method(training_data_X, training_data_y, test_data_X,test_data_y, score_
     lr.fit(training_data_X, training_data_y)
     Lr_pred = lr.predict(test_data_X)
 
-    # Bayesian Ridge Regression  （需要网格搜素）
-    print("Bayesian Ridge Regression")
-    bayes = GridSearchCV(BayesianRidge(), bayes_tuned_parameters, cv=cv_times,
+    # Ridge Regression  （需要网格搜素）
+    print("Ridge Regression")
+    ridge = GridSearchCV(Ridge(), ridge_tuned_parameters, cv=cv_times,
                          scoring=make_scorer(my_score, greater_is_better=True))
-    bayes.fit(training_data_X, training_data_y)
-    Bayes_pred = bayes.predict(test_data_X)
+    ridge.fit(training_data_X, training_data_y)
+    Ridge_pred = ridge.predict(test_data_X)
 
     # Lasso Regression (需要网格搜素)  lasso_tuned_parameters
     print("Lasso Regression")
@@ -210,7 +211,7 @@ def reg_method(training_data_X, training_data_y, test_data_X,test_data_y, score_
     return [(DTR_pred, 'Decision Tree Regressor'),
             (Regr_pred, 'Random Forest Regression'),
             (Lr_pred, 'Linear Regression'),
-            (Bayes_pred, 'Bayesian Ridge Regression'),
+            (Ridge_pred, 'Ridge Regression'),
             (Lasso_pred, "Lasso Regression"),
             (Lar_pred, 'Least Angle Regression'),
             (Gpr_pred, 'Genetic Programming'),
